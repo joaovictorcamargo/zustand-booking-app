@@ -14,7 +14,9 @@ export type Listing = {
   imageSrc: string;
   roomCount: number;
   bathroomCount: number;
+  guestCount: number;
   price: number;
+  name: string;
   reservations?: Reservation[]
 }
 

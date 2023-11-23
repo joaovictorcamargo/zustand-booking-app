@@ -6,9 +6,6 @@ export default function Home() {
 
 
   return (
-    <div className="pb-20 pt-28">
-    <div className="max-w-[2520px] mx-auto xl:px-20 md:px-10 sm:px-2 px-4"
-    >
       <div
         className="
           pt-24
@@ -30,8 +27,6 @@ export default function Home() {
           />
           )
         })}
-      </div>
-    </div>
     </div>
   )
 }

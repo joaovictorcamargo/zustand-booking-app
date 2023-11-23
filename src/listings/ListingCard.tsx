@@ -52,18 +52,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   return (
     <div 
     onClick={() => router.push(`/listings/${data.id}`)} 
-      className="col-span-1 cursor-pointer group"
     >
-      <div className="flex flex-col gap-2 w-full">
-        <div 
-          className="
-            aspect-square 
-            w-full 
-            relative 
-            overflow-hidden 
-            rounded-xl
-          "
-        >
           <img
             className="
               object-cover 
@@ -84,8 +73,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
           )}
         </div>
       </div>
-    </div>
-    </div>
    );
 }
  
