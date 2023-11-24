@@ -8,7 +8,7 @@ export interface Task {
     startDate: Date;
     endDate: Date;
     totalPrice: number;
-    createdAt: number
+    createdAt: Date
   }
 
 interface ToDoStore {

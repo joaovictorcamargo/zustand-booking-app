@@ -1,9 +1,10 @@
+'use client';
+import { useRouter } from 'next/navigation'
 import ListingCard from '@/listings/ListingCard'
 import { listings } from '@/utils'
-import Image from 'next/image'
 
 export default function Home() {
-
+const router = useRouter()
 
   return (
       <div
@@ -27,6 +28,7 @@ export default function Home() {
           />
           )
         })}
+        <button onClick={() => router.push("/trips")}>My Trips</button>
     </div>
   )
 }

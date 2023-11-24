@@ -31,6 +31,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     state.updateTask,
     state.removeTask,
   ]);
+  console.log("🚀 ~ file: ListingClient.tsx:34 ~ tasks:", tasks)
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -60,7 +61,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
         startDate: dateRange.startDate!,
         endDate: dateRange.endDate!,
         listingId: listing.id!,
-        id: "1"
+        id: "1",
+        createdAt: new Date()
       });
     } catch {
       toast.error("Something went wrong.");
