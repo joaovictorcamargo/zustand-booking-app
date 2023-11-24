@@ -6,7 +6,6 @@ interface InputTaskProps {
     startDate: Date;
     endDate: Date;
     totalPrice: number;
-    onDone: (id: string) => void;
     onEdited: (id: string, title: string) => void;
     onRemoved: (id: string) => void;
 }
@@ -17,12 +16,10 @@ export const InputTask: React.FC<InputTaskProps> = ({
     startDate,
     endDate,
     totalPrice,
-    onDone,
     onEdited,
     onRemoved
 }) => {
 
-    const [checked, setChecked] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [value, setValue] = useState({ listingId,
         startDate,
@@ -39,20 +36,6 @@ export const InputTask: React.FC<InputTaskProps> = ({
     return (
         <div>
             <label>
-                <input
-                    type="checkbox"
-                    disabled={isEditMode}
-                    checked={checked}
-                    onChange={(evt) => {
-                        setChecked(evt.target.checked);
-
-                        if (evt.target.checked) {
-                            setTimeout(() => {
-                                onDone(id);
-                            }, 300);
-                        }
-                    }}
-                />
                 { isEditMode ? (
                     <input
                         value={value}

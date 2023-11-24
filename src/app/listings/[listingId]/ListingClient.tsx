@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing, Reservation } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
-import { ToDoListDone } from "@/components/ToDoListDone/index";
 import { useToDoStore } from "@/data/stores/useToDoStore";
 import ListingReservation from "@/components/ListingReservation";
+import { Range } from "react-date-range";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -33,6 +33,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     state.updateTask,
     state.removeTask,
   ]);
+  console.log("🚀 ~ file: ListingClient.tsx:36 ~ tasks:", tasks)
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -51,25 +52,25 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     setIsLoading(true);
 
-    createTask({
-      totalPrice,
-      startDate: dateRange.startDate,
-      endDate: dateRange.endDate,
-      listingId: listing?.id,
-    });
-
     try {
-      toast.success("Listing reserved!");
-      setDateRange(initialDateRange);
-      router.push("/trips");
+      createTask({
+        totalPrice,
+        startDate: dateRange.startDate!,
+        endDate: dateRange.endDate!,
+        listingId: listing.id!,
+        id: "1"
+      });
     } catch {
       toast.error("Something went wrong.");
     } finally {
+      toast.success("Listing reserved!");
+      setDateRange(initialDateRange);
+      // router.push("/trips");
       setIsLoading(false);
     }
   }, [totalPrice, dateRange, listing?.id, router]);
@@ -156,7 +157,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
           />
         </div>
         <ToDoList />
-        <ToDoListDone />
       </div>
     </div>
   );

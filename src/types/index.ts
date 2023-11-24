@@ -8,7 +8,7 @@ export type Reservation = {
   }
 
 export type Listing = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   imageSrc: string;

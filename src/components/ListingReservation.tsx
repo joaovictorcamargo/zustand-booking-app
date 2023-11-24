@@ -50,13 +50,6 @@ const ListingReservation: React.FC<
           onChangeDate(value.selection)}
       />
       <hr />
-      <div className="p-4">
-        <button 
-          disabled={disabled} 
-          onClick={onSubmit}
-        >Reserve</button>
-      </div>
-      <hr />
       <div 
         className="
           p-4 
@@ -75,6 +68,15 @@ const ListingReservation: React.FC<
           $ {totalPrice}
         </div>
       </div>
+      <hr />
+
+      <div className="p-4">
+        <button 
+          disabled={disabled} 
+          onClick={onSubmit}
+        >Reserve</button>
+      </div>
+      <hr />
     </div>
    );
 }

@@ -13,17 +13,19 @@ export interface Task {
 
 interface ToDoStore {
     tasks: Task[];
-    tasksDone: Task[];
-    createTask: (title: string) => void;
+    createTask: ({ 
+        listingId,
+        startDate,
+        endDate,
+        totalPrice,
+    }: Task) => void;
     updateTask: (id: string, title: string) => void;
     removeTask: (id: string) => void;
-    createTaskDone: () => void;
     deleteEverything: () => void;
 }
 
 export const useToDoStore = create<ToDoStore>((set, get) => ({
     tasks: [],
-    tasksDone: [],
     createTask: ({totalPrice, startDate, endDate, listingId}: Task) => {
         const { tasks } = get();
         const newTask = {
@@ -36,23 +38,22 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
         }
 
         set({
-            tasks: [newTask].concat(tasks),
-        })
+            tasks: [newTask, ...tasks] as Task[],
+        });
     },
     updateTask: (id: string, title: string) => {
         const { tasks } = get();
         set({
             tasks: tasks.map((task) => ({
                 ...task,
-                title: task.id === id ? title : task.title,
+                title: task.id === id ? title : task.totalPrice,
             }))
         });
     },
     removeTask: (id: string) => {
-        const { tasks, tasksDone } = get();
+        const { tasks } = get();
         set({
             tasks: tasks.filter((task) => task.id !== id),
-            tasksDone: [...tasksDone].concat(tasks.filter((task) => task.id === id)),
         });
     },
     deleteEverything: () => {
