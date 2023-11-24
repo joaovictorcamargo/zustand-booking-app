@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
-import { Listing, Reservation } from "@/types/index";
+import { Listing } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
-import { useToDoStore } from "@/data/stores/useToDoStore";
+import { Task, useToDoStore } from "@/data/stores/useToDoStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 
@@ -17,13 +17,11 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: Reservation[];
   listing: Listing;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reservations = [],
 }) => {
   const router = useRouter();
 
@@ -33,12 +31,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
     state.updateTask,
     state.removeTask,
   ]);
-  console.log("🚀 ~ file: ListingClient.tsx:36 ~ tasks:", tasks)
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
 
-    reservations.forEach((reservation: any) => {
+    tasks.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -48,7 +45,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     });
 
     return dates;
-  }, [reservations]);
+  }, [listing]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
@@ -158,6 +155,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
         </div>
         <ToDoList />
       </div>
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
     </div>
   );
 };

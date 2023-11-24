@@ -32,7 +32,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
     return data.price;
   }, [reservation, data.price]);
-  console.log("🚀 ~ file: ListingCard.tsx:29 ~ price ~ price:", price);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -44,10 +43,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
-  console.log(
-    "🚀 ~ file: ListingCard.tsx:41 ~ reservationDate ~ reservationDate:",
-    reservationDate
-  );
 
   return (
     <div 

@@ -8,8 +8,8 @@ export interface Task {
     startDate: Date;
     endDate: Date;
     totalPrice: number;
+    createdAt: number
   }
-
 
 interface ToDoStore {
     tasks: Task[];
