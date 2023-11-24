@@ -24,4 +24,4 @@ interface IParams {
     } catch (error: any) {
       throw new Error(error);
     }
-  }
+  }   
