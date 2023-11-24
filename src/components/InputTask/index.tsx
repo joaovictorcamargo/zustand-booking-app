@@ -2,7 +2,10 @@ import React, {useState, useRef, useEffect} from 'react';
 
 interface InputTaskProps {
     id: string;
-    title: string;
+    listingId: string;
+    startDate: Date;
+    endDate: Date;
+    totalPrice: number;
     onDone: (id: string) => void;
     onEdited: (id: string, title: string) => void;
     onRemoved: (id: string) => void;
@@ -10,7 +13,10 @@ interface InputTaskProps {
 
 export const InputTask: React.FC<InputTaskProps> = ({
     id,
-    title,
+    listingId,
+    startDate,
+    endDate,
+    totalPrice,
     onDone,
     onEdited,
     onRemoved
@@ -18,7 +24,10 @@ export const InputTask: React.FC<InputTaskProps> = ({
 
     const [checked, setChecked] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [value, setValue] = useState(title);
+    const [value, setValue] = useState({ listingId,
+        startDate,
+        endDate,
+        totalPrice});
     const editTitleInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -59,7 +68,7 @@ export const InputTask: React.FC<InputTaskProps> = ({
                         }}
                     />
                 ) : (
-                    <h3>{title}</h3>
+                    <h3>{totalPrice}</h3>
                 )}
             </label>
             { isEditMode ? (

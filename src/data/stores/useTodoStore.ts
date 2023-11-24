@@ -2,11 +2,14 @@ import create from 'zustand';
 
 import { generateId } from '../helpers';
 
-interface Task {
+export interface Task {
     id: string;
-    title: string;
-    createdAt: number;
-}
+    listingId: string;
+    startDate: Date;
+    endDate: Date;
+    totalPrice: number;
+  }
+
 
 interface ToDoStore {
     tasks: Task[];
@@ -21,11 +24,14 @@ interface ToDoStore {
 export const useToDoStore = create<ToDoStore>((set, get) => ({
     tasks: [],
     tasksDone: [],
-    createTask: (title) => {
+    createTask: ({totalPrice, startDate, endDate, listingId}: Task) => {
         const { tasks } = get();
         const newTask = {
             id: generateId(),
-            title,
+            totalPrice,
+            startDate,
+            endDate,
+            listingId,
             createdAt: Date.now(),
         }
 

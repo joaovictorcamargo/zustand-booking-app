@@ -27,9 +27,9 @@ export const ToDoList: React.FC<ToDoListProps> = ({
             <h1 className="text-red-500">{mainTitle}</h1>
             <section>
                 <InputPlus
-                    onAdd={(title) => {
-                       if (title) {
-                            createTask(title)
+                    onAdd={({totalPrice, startDate, endDate, listingId}) => {
+                       if ({totalPrice, startDate, endDate, listingId}) {
+                            createTask({totalPrice, startDate, endDate, listingId})
                        } 
                     }}
                 />
@@ -52,9 +52,3 @@ export const ToDoList: React.FC<ToDoListProps> = ({
         </article>
     );
 }
-
-
-// const equalityFn = (a: any, b: any) => {
-//     console.log(a, b)
-//     return JSON.stringify(a) === JSON.stringify(b)
-// };

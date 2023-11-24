@@ -7,6 +7,8 @@ import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing, Reservation } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
 import { ToDoListDone } from "@/components/ToDoListDone/index";
+import { useToDoStore } from "@/data/stores/useToDoStore";
+import ListingReservation from "@/components/ListingReservation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -24,6 +26,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
   reservations = [],
 }) => {
   const router = useRouter();
+
+  const [tasks, createTask, updateTask, removeTask] = useToDoStore((state) => [
+    state.tasks,
+    state.createTask,
+    state.updateTask,
+    state.removeTask,
+  ]);
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -47,12 +56,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const onCreateReservation = useCallback(() => {
     setIsLoading(true);
 
-    // axios.post('/api/reservations', {
-    //   totalPrice,
-    //   startDate: dateRange.startDate,
-    //   endDate: dateRange.endDate,
-    //   listingId: listing?.id
-    // })
+    createTask({
+      totalPrice,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+      listingId: listing?.id,
+    });
+
     try {
       toast.success("Listing reserved!");
       setDateRange(initialDateRange);
@@ -86,7 +96,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
         className="
           w-full
           h-[60vh]
-          overflow-hidden 
           rounded-xl
           relative
         "
@@ -127,6 +136,24 @@ const ListingClient: React.FC<ListingClientProps> = ({
           <div>{listing.guestCount} guests</div>
           <div>{listing.roomCount} rooms</div>
           <div>{listing.bathroomCount} bathrooms</div>
+        </div>
+        <div
+          className="
+                order-first 
+                mb-10 
+                md:order-last 
+                md:col-span-3
+              "
+        >
+          <ListingReservation
+            price={listing.price}
+            totalPrice={totalPrice}
+            onChangeDate={(value) => setDateRange(value)}
+            dateRange={dateRange}
+            onSubmit={onCreateReservation}
+            disabled={isLoading}
+            disabledDates={disabledDates}
+          />
         </div>
         <ToDoList />
         <ToDoListDone />
