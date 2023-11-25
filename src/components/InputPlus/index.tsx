@@ -2,13 +2,13 @@ import { Task } from '@/data/stores/useToDoStore';
 import React, {useState, useCallback} from 'react';
 
 interface InputPlusProps {
-    onAdd: ({totalPrice, startDate, endDate, listingId}: Task) => void;
+    onAdd: ({totalPrice, startDate, endDate, listingId, imageSrc}: Task) => void;
 }
 
 export const InputPlus: React.FC<InputPlusProps> = ({
     onAdd,
 }) => {
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState({});
     const addTask = useCallback(() => {
         onAdd(inputValue);
         setInputValue('');

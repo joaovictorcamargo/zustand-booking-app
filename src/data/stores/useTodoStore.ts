@@ -8,7 +8,8 @@ export interface Task {
     startDate: Date;
     endDate: Date;
     totalPrice: number;
-    createdAt: Date
+    createdAt: Date,
+    imageSrc: string
   }
 
 interface ToDoStore {
@@ -18,6 +19,7 @@ interface ToDoStore {
         startDate,
         endDate,
         totalPrice,
+        imageSrc
     }: Task) => void;
     updateTask: (id: string, title: string) => void;
     removeTask: (id: string) => void;
@@ -26,7 +28,7 @@ interface ToDoStore {
 
 export const useToDoStore = create<ToDoStore>((set, get) => ({
     tasks: [],
-    createTask: ({totalPrice, startDate, endDate, listingId}: Task) => {
+    createTask: ({totalPrice, startDate, endDate, listingId, imageSrc}: Task) => {
         const { tasks } = get();
         const newTask = {
             id: generateId(),
@@ -35,6 +37,7 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
             endDate,
             listingId,
             createdAt: Date.now(),
+            imageSrc
         }
 
         set({

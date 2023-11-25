@@ -17,10 +17,6 @@ interface ListingCardProps {
 const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
-  onAction,
-  disabled,
-  actionLabel,
-  actionId = "",
 }) => {
   const router = useRouter();
 
@@ -28,10 +24,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const price = useMemo(() => {
     if (reservation) {
       return reservation.totalPrice;
-    }``
+    }
 
-    return data.price;
-  }, [reservation, data.price]);
+    return data?.price;
+    }, [reservation, data?.price]);
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -56,7 +52,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               group-hover:scale-110 
               transition
             "
-            src={data.imageSrc}
+            src={reservation ? reservation?.imageSrc : data?.imageSrc}
             alt="Listing"
           />
           <div className="flex flex-row items-center gap-1">

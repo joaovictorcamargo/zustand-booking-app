@@ -27,9 +27,9 @@ export const ToDoList: React.FC<ToDoListProps> = ({
             <h1 className="text-red-500">{mainTitle}</h1>
             <section>
                 <InputPlus
-                    onAdd={({totalPrice, startDate, endDate, listingId, id}) => {
+                    onAdd={({totalPrice, startDate, endDate, listingId, id, imageSrc}) => {
                        if ({totalPrice, startDate, endDate, listingId, id}) {
-                            createTask({totalPrice, startDate, endDate, listingId, id })
+                            createTask({totalPrice, startDate, endDate, listingId, id, imageSrc })
                        } 
                     }}
                 />

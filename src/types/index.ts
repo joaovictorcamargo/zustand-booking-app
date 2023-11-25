@@ -5,6 +5,7 @@ export type Reservation = {
     endDate: Date;
     totalPrice: number;
     createdAt: Date;
+    imageSrc: string
   }
 
 export type Listing = {
@@ -17,7 +18,7 @@ export type Listing = {
   guestCount: number;
   price: number;
   name: string;
-  reservations?: Reservation[]
+  reservations?: Reservation[],
 }
 
 

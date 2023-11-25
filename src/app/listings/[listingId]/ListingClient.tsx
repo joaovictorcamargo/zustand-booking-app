@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
-import { Task, useToDoStore } from "@/data/stores/useToDoStore";
+import {  useToDoStore } from "@/data/stores/useToDoStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 
@@ -25,13 +25,12 @@ const ListingClient: React.FC<ListingClientProps> = ({
 }) => {
   const router = useRouter();
 
-  const [tasks, createTask, updateTask, removeTask] = useToDoStore((state) => [
+  const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,
     state.createTask,
     state.updateTask,
     state.removeTask,
   ]);
-  console.log("🚀 ~ file: ListingClient.tsx:34 ~ tasks:", tasks)
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -62,7 +61,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
         endDate: dateRange.endDate!,
         listingId: listing.id!,
         id: "1",
-        createdAt: new Date()
+        createdAt: new Date(),
+        imageSrc: listing.imageSrc!
       });
     } catch {
       toast.error("Something went wrong.");
@@ -72,7 +72,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       // router.push("/trips");
       setIsLoading(false);
     }
-  }, [totalPrice, dateRange, listing?.id, router]);
+  }, [totalPrice, dateRange, listing?.id, createTask, listing.imageSrc]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
