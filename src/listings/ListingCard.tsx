@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SafeListing, SafeReservation } from "../types/index";
 import { format } from "date-fns";
+import { useToDoStore } from "@/data/stores/useBookingStore";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -20,6 +21,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const router = useRouter();
 
+  const [
+    removeTask
+] = useToDoStore(state => [
+    state.removeTask,
+]);
+
 
   const price = useMemo(() => {
     if (reservation) {
@@ -29,16 +36,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
     return data?.price;
     }, [reservation, data?.price]);
 
-  const reservationDate = useMemo(() => {
-    if (!reservation) {
-      return null;
-    }
-
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
-
-    return `${format(start, "PP")} - ${format(end, "PP")}`;
-  }, [reservation]);
+    const handleCancel = useCallback(
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+  
+      removeTask(reservation?.id!)
+    }, []);
 
   return (
     <div 
@@ -63,6 +66,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <div className="font-light">night</div>
           )}
         </div>
+        {reservation && (
+        <button onClick={handleCancel}>Cancel reservation</button>
+        )}
       </div>
    );
 }

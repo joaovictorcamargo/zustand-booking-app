@@ -1,5 +1,5 @@
 
-import { useToDoStore } from "@/data/stores/useToDoStore";
+import { useToDoStore } from "@/data/stores/useBookingStore";
 import TripsClient from "./TripsClient";
 
 const TripsPage = async () => {

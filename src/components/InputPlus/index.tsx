@@ -1,4 +1,4 @@
-import { Task } from '@/data/stores/useToDoStore';
+import { Task } from '@/data/stores/useBookingStore';
 import React, {useState, useCallback} from 'react';
 
 interface InputPlusProps {

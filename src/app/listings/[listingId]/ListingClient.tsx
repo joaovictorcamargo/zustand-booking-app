@@ -2,11 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
-import {  useToDoStore } from "@/data/stores/useToDoStore";
+import {  useToDoStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 
@@ -23,7 +22,6 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
 }) => {
-  const router = useRouter();
 
   const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,

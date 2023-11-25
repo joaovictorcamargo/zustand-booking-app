@@ -1,4 +1,4 @@
-import { useToDoStore } from '@/data/stores/useToDoStore';
+import { useToDoStore } from '@/data/stores/useBookingStore';
 import React from 'react';
 import { InputPlus } from '../InputPlus/index';
 import { InputTask } from '../InputTask/index';
