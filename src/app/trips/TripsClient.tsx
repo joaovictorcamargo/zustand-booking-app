@@ -1,7 +1,6 @@
 'use client';
 
-import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+
 
 import {  useToDoStore } from "@/data/stores/useBookingStore";
 import ListingCard from "@/listings/ListingCard";
@@ -14,24 +13,6 @@ const TripsClient: React.FC = () => {
     state.updateTask,
     state.removeTask,
   ]);
-  const router = useRouter();
-  const [deletingId, setDeletingId] = useState('');
-
-  const onCancel = useCallback((id: string) => {
-    setDeletingId(id);
-
-    // axios.delete(`/api/reservations/${id}`)
-    // .then(() => {
-    //   toast.success('Reservation cancelled');
-    //   router.refresh();
-    // })
-    // .catch((error) => {
-    //   toast.error(error?.response?.data?.error)
-    // })
-    // .finally(() => {
-    //   setDeletingId('');
-    // })
-  }, [router]);
 
   return (
       <div 
@@ -54,8 +35,6 @@ const TripsClient: React.FC = () => {
             data={reservation.listing}
             reservation={reservation}
             actionId={reservation.id}
-            onAction={onCancel}
-            disabled={deletingId === reservation.id}
             actionLabel="Cancel reservation"
           />
         ))}

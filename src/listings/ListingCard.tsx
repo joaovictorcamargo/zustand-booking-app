@@ -83,6 +83,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
         {reservation && (
         <button onClick={handleCancel}>Cancel reservation</button>
         )}
+            {reservation && (
+        <button     onClick={() => router.push(`/update_listings/${reservation.id}`)} 
+        >Update reservation</button>
+        )}
       </div>
    );
 }
