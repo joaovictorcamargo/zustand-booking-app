@@ -9,7 +9,6 @@ interface IParams {
 
 const UpdateListingPage = ({ params }: { params: IParams }) => {
   const listing = useGetListingById(params);
-  console.log("🚀 ~ file: page.tsx:12 ~ UpdateListingPage ~ listing:", listing)
 
   return <UpdateListingClient listing={listing!} />;
 };

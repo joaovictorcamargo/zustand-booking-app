@@ -2,13 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
-import { differenceInDays, eachDayOfInterval } from "date-fns";
+import { differenceInDays, eachDayOfInterval, format } from "date-fns";
 import { Listing } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
 import {  Task, useToDoStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
+import DatePicker from "@/components/Calendar";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -23,6 +24,7 @@ interface UpdateListingClientProps {
 const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   listing,
 }) => {
+  console.log("🚀 ~ file: UpdateListingClient.tsx:26 ~ listing:", listing)
   const router = useRouter()
 
   const [tasks, createTask] = useToDoStore((state) => [
@@ -86,6 +88,18 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   //   }
   // }, [dateRange, listing.price]);
 
+
+  const reservationDate = useMemo(() => {
+    if (!listing) {
+      return null;
+    }
+  
+    const start = new Date(listing.startDate);
+    const end = new Date(listing.endDate);
+
+    return `${format(start, 'PP')} - ${format(end, 'PP')}`;
+  }, [listing]);
+
   return (
     <div className="text-start">
       {/* <div className="text-2xl font-bold">{listing?.title}</div>
@@ -122,6 +136,19 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
             alt="Listing"
           />
         </div>
+        <div className="font-light text-neutral-500">
+          {reservationDate}
+        </div>
+        <div className="font-semibold">
+            $ {listing?.totalPrice}
+            </div>
+            <hr />
+      <DatePicker
+        value={dateRange}
+        disabledDates={disabledDates}
+        onChange={(value) => setDateRange(value)}
+      />
+      <hr />
         {/* <div>Hosted by {listing?.name}</div> */}
         <div
           className="

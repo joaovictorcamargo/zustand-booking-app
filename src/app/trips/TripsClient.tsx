@@ -1,7 +1,5 @@
 'use client';
 
-
-
 import {  useToDoStore } from "@/data/stores/useBookingStore";
 import ListingCard from "@/listings/ListingCard";
 

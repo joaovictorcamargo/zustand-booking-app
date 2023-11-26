@@ -19,6 +19,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
 }) => {
+  console.log("🚀 ~ file: ListingCard.tsx:22 ~ reservation:", reservation?.id)
   const router = useRouter();
 
   const [
@@ -54,9 +55,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
       return `${format(start, 'PP')} - ${format(end, 'PP')}`;
     }, [reservation]);
 
+
   return (
     <div 
-    onClick={() => router.push(`/listings/${data.id}`)} 
+    onClick={() => router.push(`/listings/${data?.id}`)} 
     >
           <img
             className="
@@ -84,7 +86,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <button onClick={handleCancel}>Cancel reservation</button>
         )}
             {reservation && (
-        <button     onClick={() => router.push(`/update_listings/${reservation.id}`)} 
+        <button     onClick={() => router.push(`/update_listings/${reservation?.id}`)} 
         >Update reservation</button>
         )}
       </div>

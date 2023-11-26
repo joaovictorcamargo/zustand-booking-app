@@ -48,7 +48,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [listing]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPrice, setTotalPrice] = useState(listing.price);
+  const [totalPrice, setTotalPrice] = useState(listing?.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
@@ -72,25 +72,25 @@ const ListingClient: React.FC<ListingClientProps> = ({
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [totalPrice, dateRange, listing?.id, createTask, listing.imageSrc]);
+  }, [totalPrice, dateRange, listing?.id, createTask, listing?.imageSrc]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
       const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
 
-      if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price);
+      if (dayCount && listing?.price) {
+        setTotalPrice(dayCount * listing?.price);
       } else {
-        setTotalPrice(listing.price);
+        setTotalPrice(listing?.price);
       }
     }
-  }, [dateRange, listing.price]);
+  }, [dateRange, listing?.price]);
 
   return (
     <div className="text-start">
-      <div className="text-2xl font-bold">{listing.title}</div>
+      <div className="text-2xl font-bold">{listing?.title}</div>
       <div className="font-light text-neutral-500 mt-2">
-        {listing.description}
+        {listing?.description}
       </div>
       <div
         className="
@@ -118,11 +118,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
               group-hover:scale-110 
               transition
             "
-            src={listing.imageSrc}
+            src={listing?.imageSrc}
             alt="Listing"
           />
         </div>
-        <div>Hosted by {listing.name}</div>
+        <div>Hosted by {listing?.name}</div>
         <div
           className="
             flex 
@@ -133,9 +133,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
             text-neutral-500
           "
         >
-          <div>{listing.guestCount} guests</div>
-          <div>{listing.roomCount} rooms</div>
-          <div>{listing.bathroomCount} bathrooms</div>
+          <div>{listing?.guestCount} guests</div>
+          <div>{listing?.roomCount} rooms</div>
+          <div>{listing?.bathroomCount} bathrooms</div>
         </div>
         <div
           className="
@@ -146,7 +146,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               "
         >
           <ListingReservation
-            price={listing.price}
+            price={listing?.price}
             totalPrice={totalPrice}
             onChangeDate={(value) => setDateRange(value)}
             dateRange={dateRange}
