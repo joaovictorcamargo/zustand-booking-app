@@ -5,6 +5,18 @@ import { useRouter } from "next/navigation";
 import { SafeListing, SafeReservation } from "../types/index";
 import { format } from "date-fns";
 import { useToDoStore } from "@/data/stores/useBookingStore";
+import {
+  Card,
+  Stack,
+  CardBody,
+  Image,
+  Heading,
+  Text,
+  Divider,
+  CardFooter,
+  ButtonGroup,
+  Button,
+} from "@chakra-ui/react";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -48,27 +60,42 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
 
   return (
     <>
-      <div onClick={() => router.push(`/listings/${data?.id}`)}>
-        <img
-          className="
-              object-cover 
-              h-full 
-              w-full 
-              group-hover:scale-110 
-              transition
-            "
-          src={reservation ? reservation?.imageSrc : data?.imageSrc}
-          alt="Listing"
-        />
-        <div className="font-light text-neutral-500">{reservationDate}</div>
-        <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold">$ {price}</div>
-          {!reservation && <div className="font-light">night</div>}
-        </div>
-        {reservation && (
-          <button onClick={handleCancel}>Cancel reservation</button>
-        )}
-      </div>
+      <Card maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
+        <CardBody>
+          <Image
+            src={reservation ? reservation?.imageSrc : data?.imageSrc}
+            alt="Listing"
+            borderRadius="lg"
+          />
+          <div className="font-light text-neutral-500">{reservationDate}</div>
+          <Stack mt="6" spacing="3">
+            <Heading size="md">Living room Sofa</Heading>
+            <Text>
+              This sofa is perfect for modern tropical spaces, baroque inspired
+              spaces, earthy toned spaces and for people who love a chic design
+              with a sprinkle of vintage design.
+            </Text>
+            <Text color="blue.600" fontSize="2xl">
+              {price}
+            </Text>
+            {!reservation && <Text className="font-light">night</Text>}
+            {reservation && (
+              <button onClick={handleCancel}>Cancel reservation</button>
+            )}
+          </Stack>
+        </CardBody>
+        <Divider />
+        <CardFooter>
+          <ButtonGroup spacing="2">
+            <Button variant="solid" colorScheme="blue">
+              Buy now
+            </Button>
+            <Button variant="ghost" colorScheme="blue">
+              Add to cart
+            </Button>
+          </ButtonGroup>
+        </CardFooter>
+      </Card>
       {reservation && (
         <button
           onClick={() => router.push(`/update_listings/${reservation?.id}`)}
