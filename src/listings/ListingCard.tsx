@@ -43,6 +43,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
       removeTask(reservation?.id!)
     }, []);
 
+    const reservationDate = useMemo(() => {
+      if (!reservation) {
+        return null;
+      }
+    
+      const start = new Date(reservation.startDate);
+      const end = new Date(reservation.endDate);
+  
+      return `${format(start, 'PP')} - ${format(end, 'PP')}`;
+    }, [reservation]);
+
   return (
     <div 
     onClick={() => router.push(`/listings/${data.id}`)} 
@@ -58,6 +69,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             src={reservation ? reservation?.imageSrc : data?.imageSrc}
             alt="Listing"
           />
+           <div className="font-light text-neutral-500">
+          {reservationDate}
+        </div>
           <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">
             $ {price}

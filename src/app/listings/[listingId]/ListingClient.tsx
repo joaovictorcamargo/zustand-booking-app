@@ -8,6 +8,7 @@ import { ToDoList } from "@/components/ToDoList/index";
 import {  useToDoStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
+import { useRouter } from "next/navigation";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -22,6 +23,7 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
 }) => {
+  const router = useRouter()
 
   const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,
@@ -67,7 +69,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     } finally {
       toast.success("Listing reserved!");
       setDateRange(initialDateRange);
-      // router.push("/trips");
+      router.push("/trips");
       setIsLoading(false);
     }
   }, [totalPrice, dateRange, listing?.id, createTask, listing.imageSrc]);
