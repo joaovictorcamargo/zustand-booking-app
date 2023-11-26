@@ -24,7 +24,6 @@ interface UpdateListingClientProps {
 const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   listing,
 }) => {
-  console.log("🚀 ~ file: UpdateListingClient.tsx:26 ~ listing:", listing)
   const router = useRouter()
 
   const [tasks, createTask] = useToDoStore((state) => [

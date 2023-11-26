@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -15,19 +15,11 @@ interface ListingCardProps {
   actionId?: string;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({
-  data,
-  reservation,
-}) => {
-  console.log("🚀 ~ file: ListingCard.tsx:22 ~ reservation:", reservation?.id)
+const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
+  console.log("🚀 ~ file: ListingCard.tsx:22 ~ reservation:", reservation?.id);
   const router = useRouter();
 
-  const [
-    removeTask
-] = useToDoStore(state => [
-    state.removeTask,
-]);
-
+  const [removeTask] = useToDoStore((state) => [state.removeTask]);
 
   const price = useMemo(() => {
     if (reservation) {
@@ -35,62 +27,57 @@ const ListingCard: React.FC<ListingCardProps> = ({
     }
 
     return data?.price;
-    }, [reservation, data?.price]);
+  }, [reservation, data?.price]);
 
-    const handleCancel = useCallback(
-      (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
-  
-      removeTask(reservation?.id!)
-    }, []);
+  const handleCancel = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
 
-    const reservationDate = useMemo(() => {
-      if (!reservation) {
-        return null;
-      }
-    
-      const start = new Date(reservation.startDate);
-      const end = new Date(reservation.endDate);
-  
-      return `${format(start, 'PP')} - ${format(end, 'PP')}`;
-    }, [reservation]);
+    removeTask(reservation?.id!);
+  }, []);
 
+  const reservationDate = useMemo(() => {
+    if (!reservation) {
+      return null;
+    }
+
+    const start = new Date(reservation.startDate);
+    const end = new Date(reservation.endDate);
+
+    return `${format(start, "PP")} - ${format(end, "PP")}`;
+  }, [reservation]);
 
   return (
-    <div 
-    onClick={() => router.push(`/listings/${data?.id}`)} 
-    >
-          <img
-            className="
+    <>
+      <div onClick={() => router.push(`/listings/${data?.id}`)}>
+        <img
+          className="
               object-cover 
               h-full 
               w-full 
               group-hover:scale-110 
               transition
             "
-            src={reservation ? reservation?.imageSrc : data?.imageSrc}
-            alt="Listing"
-          />
-           <div className="font-light text-neutral-500">
-          {reservationDate}
-        </div>
-          <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold">
-            $ {price}
-          </div>
-          {!reservation && (
-            <div className="font-light">night</div>
-          )}
+          src={reservation ? reservation?.imageSrc : data?.imageSrc}
+          alt="Listing"
+        />
+        <div className="font-light text-neutral-500">{reservationDate}</div>
+        <div className="flex flex-row items-center gap-1">
+          <div className="font-semibold">$ {price}</div>
+          {!reservation && <div className="font-light">night</div>}
         </div>
         {reservation && (
-        <button onClick={handleCancel}>Cancel reservation</button>
-        )}
-            {reservation && (
-        <button     onClick={() => router.push(`/update_listings/${reservation?.id}`)} 
-        >Update reservation</button>
+          <button onClick={handleCancel}>Cancel reservation</button>
         )}
       </div>
-   );
-}
- 
+      {reservation && (
+        <button
+          onClick={() => router.push(`/update_listings/${reservation?.id}`)}
+        >
+          Update reservation
+        </button>
+      )}
+    </>
+  );
+};
+
 export default ListingCard;
