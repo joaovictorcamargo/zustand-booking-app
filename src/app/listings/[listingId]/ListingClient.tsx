@@ -16,7 +16,6 @@ import {
   Image,
   Heading,
   Text,
-  Divider,
   CardFooter,
   ButtonGroup,
   Button,
@@ -83,7 +82,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [totalPrice, dateRange, listing?.id, createTask, listing?.imageSrc]);
+  }, [createTask, totalPrice, dateRange.startDate, dateRange.endDate, listing?.id, listing?.imageSrc, router]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {

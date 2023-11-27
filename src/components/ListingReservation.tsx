@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import {  Range } from "react-date-range";
+import { Range } from "react-date-range";
 import DatePicker from "./Calendar";
-
+import { Button } from "@chakra-ui/react";
 interface ListingReservationProps {
   price: number;
-  dateRange: Range,
+  dateRange: Range;
   totalPrice: number;
   onChangeDate: (value: Range) => void;
   onSubmit: () => void;
@@ -13,18 +13,16 @@ interface ListingReservationProps {
   disabledDates: Date[];
 }
 
-const ListingReservation: React.FC<
-  ListingReservationProps
-> = ({
+const ListingReservation: React.FC<ListingReservationProps> = ({
   dateRange,
   totalPrice,
   onChangeDate,
   onSubmit,
   disabled,
-  disabledDates
+  disabledDates,
 }) => {
-  return ( 
-    <div 
+  return (
+    <div
       className="
       bg-white 
         rounded-xl 
@@ -35,10 +33,9 @@ const ListingReservation: React.FC<
       <DatePicker
         value={dateRange}
         disabledDates={disabledDates}
-        onChange={(value) => 
-          onChangeDate(value.selection)}
+        onChange={(value) => onChangeDate(value.selection)}
       />
-      <div 
+      <div
         className="
           p-4 
           flex 
@@ -49,22 +46,22 @@ const ListingReservation: React.FC<
           text-lg
         "
       >
-        <div>
-          Total
-        </div>
-        <div>
-          $ {totalPrice}
-        </div>
+        <div>Total</div>
+        <div>$ {totalPrice}</div>
       </div>
 
       <div className="p-4">
-        <button 
-          disabled={disabled} 
+        <Button
+          disabled={disabled}
           onClick={onSubmit}
-        >Reserve</button>
+          variant="ghost"
+          colorScheme="green"
+        >
+          Reserve
+        </Button>
       </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default ListingReservation;

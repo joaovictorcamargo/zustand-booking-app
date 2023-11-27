@@ -7,9 +7,6 @@ import ListingCard from "@/listings/ListingCard";
 const TripsClient: React.FC = () => {
   const [tasks] = useToDoStore((state) => [
     state.tasks,
-    state.createTask,
-    state.updateTask,
-    state.removeTask,
   ]);
 
   return (
@@ -32,7 +29,6 @@ const TripsClient: React.FC = () => {
             data={reservation.listing}
             reservation={reservation}
             actionId={reservation.id}
-            actionLabel="Cancel reservation"
           />
         ))}
       </div>

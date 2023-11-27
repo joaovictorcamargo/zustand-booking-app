@@ -18,19 +18,20 @@ export default function Home() {
           xl:grid-cols-5
           2xl:grid-cols-6
           gap-8
+          m-6
         "
     >
       {listings.map((listing: any) => {
         return <ListingCard key={listing.id} data={listing} />;
       })}
-            <div className="absolute top-4 right-4">
       <Menu>
-        <MenuButton as={Button}>Options</MenuButton>
+        <MenuButton as={Button}>
+          Options
+        </MenuButton>
         <MenuList>
           <MenuItem onClick={() => router.push("/trips")}>My Trips</MenuItem>
         </MenuList>
       </Menu>
-      </div>
     </div>
   );
 }

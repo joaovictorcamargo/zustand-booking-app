@@ -4,7 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SafeListing, SafeReservation } from "../types/index";
 import { format } from "date-fns";
-import { useToDoStore } from "@/data/stores/useBookingStore";
+import { Task, useToDoStore } from "@/data/stores/useBookingStore";
 import {
   Card,
   Stack,
@@ -12,7 +12,6 @@ import {
   Image,
   Heading,
   Text,
-  Divider,
   CardFooter,
   ButtonGroup,
   Button,
@@ -21,7 +20,7 @@ import {
 
 interface ListingCardProps {
   data: SafeListing;
-  reservation?: SafeReservation;
+  reservation?: Task;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
@@ -29,6 +28,7 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
+  console.log("🚀 ~ file: ListingCard.tsx:31 ~ data:", reservation);
   const router = useRouter();
 
   const [removeTask] = useToDoStore((state) => [state.removeTask]);
@@ -41,11 +41,14 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
     return data?.price;
   }, [reservation, data?.price]);
 
-  const handleCancel = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+  const handleCancel = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
 
-    removeTask(reservation?.id!);
-  }, []);
+      removeTask(reservation?.id!);
+    },
+    [removeTask, reservation?.id]
+  );
 
   const reservationDate = useMemo(() => {
     if (!reservation) {
@@ -58,9 +61,13 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
+  function clickme(id: string) {
+
+  }
+
   return (
     <>
-      <Card ml="4" maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
+      <Card maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
         <CardBody>
           <Image
             src={reservation ? reservation?.imageSrc : data?.imageSrc}
@@ -69,26 +76,38 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
           />
           <div className="font-light text-neutral-500">{reservationDate}</div>
           <Stack mt="6" spacing="3">
-            <Heading size="md">Living room Sofa</Heading>
-            <Text>
-              This sofa is perfect for modern tropical spaces, baroque inspired
-              spaces, earthy toned spaces and for people who love a chic design
-              with a sprinkle of vintage design.
-            </Text>
-            <Box display='flex' alignItems='baseline' gap="2">
+            <Heading size="md">{data?.title}</Heading>
+            <Text>{data?.description}</Text>
+            <Box display="flex" alignItems="baseline" gap="2">
               <Text color="blue.600" fontSize="2xl">
-                {price}{"$"}
+                {price}
+                {"$"}
               </Text>
               {!reservation && <Text className="font-light">night</Text>}
             </Box>
           </Stack>
         </CardBody>
-        <Divider />
         <CardFooter>
+          <ButtonGroup spacing="2">
+            {!reservation && (
+              <Button variant="ghost" colorScheme="blue">
+                Book
+              </Button>
+            )}
+          </ButtonGroup>
           {reservation && (
-            <ButtonGroup flexDir="column" gap='4'>
-              <Button variant="ghost" onClick={handleCancel} colorScheme='red'>Cancel Reservation</Button>
-              <Button onClick={() => router.push(`/update_listings/${reservation?.id}`)} colorScheme='yellow'> Update reservation</Button>
+            <ButtonGroup flexDir="column" gap="4">
+              <Button variant="ghost" onClick={handleCancel} colorScheme="red">
+                Cancel Reservation
+              </Button>
+              <Button
+                onClick={() =>
+                  router.push(`/update_listings/${reservation?.id}`)
+                }
+                colorScheme="yellow"
+              >
+                Update reservation
+              </Button>
             </ButtonGroup>
           )}
         </CardFooter>
