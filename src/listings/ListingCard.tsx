@@ -16,7 +16,7 @@ import {
   CardFooter,
   ButtonGroup,
   Button,
-  Box
+  Box,
 } from "@chakra-ui/react";
 
 interface ListingCardProps {
@@ -29,7 +29,6 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
-  console.log("🚀 ~ file: ListingCard.tsx:22 ~ reservation:", reservation?.id);
   const router = useRouter();
 
   const [removeTask] = useToDoStore((state) => [state.removeTask]);
@@ -61,7 +60,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
 
   return (
     <>
-      <Card maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
+      <Card ml="4" maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
         <CardBody>
           <Image
             src={reservation ? reservation?.imageSrc : data?.imageSrc}
@@ -76,31 +75,22 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
               spaces, earthy toned spaces and for people who love a chic design
               with a sprinkle of vintage design.
             </Text>
-            <Box display='flex'  alignItems='baseline' gap="2">
-            <Text color="blue.600" fontSize="2xl">
-              {price}{"$"}
-            </Text>
-            {!reservation && <Text className="font-light">night</Text>}
+            <Box display='flex' alignItems='baseline' gap="2">
+              <Text color="blue.600" fontSize="2xl">
+                {price}{"$"}
+              </Text>
+              {!reservation && <Text className="font-light">night</Text>}
             </Box>
-            {reservation && (
-              <button onClick={handleCancel}>Cancel reservation</button>
-            )}
-                  {reservation && (
-        <button
-          onClick={() => router.push(`/update_listings/${reservation?.id}`)}
-        >
-          Update reservation
-        </button>
-      )}
           </Stack>
         </CardBody>
         <Divider />
         <CardFooter>
-          <ButtonGroup spacing="2">
-            <Button variant="ghost" colorScheme="blue">
-              Book
-            </Button>
-          </ButtonGroup>
+          {reservation && (
+            <ButtonGroup flexDir="column" gap='4'>
+              <Button variant="ghost" onClick={handleCancel} colorScheme='red'>Cancel Reservation</Button>
+              <Button onClick={() => router.push(`/update_listings/${reservation?.id}`)} colorScheme='yellow'> Update reservation</Button>
+            </ButtonGroup>
+          )}
         </CardFooter>
       </Card>
     </>
