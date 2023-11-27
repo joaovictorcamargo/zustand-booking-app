@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing } from "@/types/index";
-import { ToDoList } from "@/components/ToDoList/index";
 import { useToDoStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
@@ -17,8 +16,6 @@ import {
   Heading,
   Text,
   CardFooter,
-  ButtonGroup,
-  Button,
   Box,
 } from "@chakra-ui/react";
 
@@ -38,8 +35,6 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
   const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,
     state.createTask,
-    state.updateTask,
-    state.removeTask,
   ]);
 
   const disabledDates = useMemo(() => {
@@ -55,7 +50,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
     });
 
     return dates;
-  }, [listing]);
+  }, [tasks]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing?.price);

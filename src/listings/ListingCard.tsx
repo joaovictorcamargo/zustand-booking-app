@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { SafeListing, SafeReservation } from "../types/index";
+import { SafeListing } from "../types/index";
 import { format } from "date-fns";
 import { Task, useToDoStore } from "@/data/stores/useBookingStore";
 import {
@@ -61,13 +61,10 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
-  function clickme(id: string) {
-
-  }
 
   return (
     <>
-      <Card maxW="sm" onClick={() => router.push(`/listings/${data?.id}`)}>
+      <Card maxW="sm">
         <CardBody>
           <Image
             src={reservation ? reservation?.imageSrc : data?.imageSrc}
@@ -90,7 +87,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
         <CardFooter>
           <ButtonGroup spacing="2">
             {!reservation && (
-              <Button variant="ghost" colorScheme="blue">
+              <Button onClick={() => router.push(`/listings/${data?.id}`)} variant="ghost" colorScheme="blue">
                 Book
               </Button>
             )}

@@ -1,15 +1,21 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
-import { differenceInDays, eachDayOfInterval, format } from "date-fns";
-import { Listing } from "@/types/index";
-import { ToDoList } from "@/components/ToDoList/index";
-import {  Task, useToDoStore } from "@/data/stores/useBookingStore";
-import ListingReservation from "@/components/ListingReservation";
+import { useCallback, useMemo, useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { eachDayOfInterval, format } from "date-fns";
+import { Task, useToDoStore } from "@/data/stores/useBookingStore";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
 import DatePicker from "@/components/Calendar";
+import {
+  Card,
+  CardBody,
+  Image,
+  Text,
+  CardFooter,
+  Button,
+  Box,
+} from "@chakra-ui/react";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -24,13 +30,11 @@ interface UpdateListingClientProps {
 const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   listing,
 }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [tasks, createTask] = useToDoStore((state) => [
+  const [tasks, updateTask] = useToDoStore((state) => [
     state.tasks,
-    state.createTask,
     state.updateTask,
-    state.removeTask,
   ]);
 
   const disabledDates = useMemo(() => {
@@ -46,7 +50,7 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
     });
 
     return dates;
-  }, [listing]);
+  }, [tasks]);
 
   const [isLoading, setIsLoading] = useState(false);
   // const [totalPrice, setTotalPrice] = useState(listing.price);
@@ -87,24 +91,79 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   //   }
   // }, [dateRange, listing.price]);
 
-
   const reservationDate = useMemo(() => {
     if (!listing) {
       return null;
     }
-  
+
     const start = new Date(listing.startDate);
     const end = new Date(listing.endDate);
 
-    return `${format(start, 'PP')} - ${format(end, 'PP')}`;
+    return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [listing]);
 
+  const onUpdateReservation = useCallback(() => {
+    setIsLoading(true);
+
+    // try {
+    //   createTask({
+    //     totalPrice,
+    //     startDate: dateRange.startDate!,
+    //     endDate: dateRange.endDate!,
+    //     listingId: listing.id!,
+    //     id: "1",
+    //     createdAt: new Date(),
+    //     imageSrc: listing.imageSrc!,
+    //   });
+    // } catch {
+    //   toast.error("Something went wrong.");
+    // } finally {
+    //   toast.success("Listing reserved!");
+    //   setDateRange(initialDateRange);
+    //   router.push("/trips");
+    //   setIsLoading(false);
+    // }
+  }, []);
+
   return (
-    <div className="text-start">
-      {/* <div className="text-2xl font-bold">{listing?.title}</div>
-      <div className="font-light text-neutral-500 mt-2">
-        {listing?.description}
-      </div> */}
+    <>
+      <Card maxW="sm">
+        <CardBody>
+          <Image src={listing?.imageSrc} alt="Listing" borderRadius="lg" />
+          <div className="font-light text-neutral-500">{reservationDate}</div>
+          <Box>
+            <Text color="blue.600" fontSize="2xl">
+              {listing?.totalPrice}
+              {"$"}
+            </Text>
+          </Box>
+        </CardBody>
+        <CardFooter>
+          <div
+            className="
+      bg-white 
+        rounded-xl 
+        border-[1px]
+      border-neutral-200 
+      "
+          >
+            <DatePicker
+              value={dateRange}
+              disabledDates={disabledDates}
+              onChange={(value) => setDateRange(value)}
+            />
+            <div className="p-4">
+              <Button
+                onClick={onUpdateReservation}
+                variant="ghost"
+                colorScheme="yellow"
+              >
+                Update
+              </Button>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
       <div
         className="
           w-full
@@ -115,40 +174,6 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
       >
         <div
           className="
-          grid 
-          grid-cols-1 
-          sm:grid-cols-2 
-          md:grid-cols-3 
-          lg:grid-cols-4
-          xl:grid-cols-5
-          2xl:grid-cols-6
-          gap-8
-        "
-        >
-          <img
-            className="
-              object-cover 
-              group-hover:scale-110 
-              transition
-            "
-            src={listing?.imageSrc}
-            alt="Listing"
-          />
-        </div>
-        <div className="font-light text-neutral-500">
-          {reservationDate}
-        </div>
-        <div className="font-semibold">
-            $ {listing?.totalPrice}
-            </div>
-      <DatePicker
-        value={dateRange}
-        disabledDates={disabledDates}
-        onChange={(value) => setDateRange(value)}
-      />
-        {/* <div>Hosted by {listing?.name}</div> */}
-        <div
-          className="
             flex 
             flex-row 
             items-center 
@@ -156,36 +181,11 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
             font-light
             text-neutral-500
           "
-        >
-          {/* <div>{listing?.guestCount} guests</div>
-          <div>{listing?.roomCount} rooms</div>
-          <div>{listing?.bathroomCount} bathrooms</div> */}
-        </div>
-        <div
-          className="
-                order-first 
-                mb-10 
-                md:order-last 
-                md:col-span-3
-              "
-        >
-          {/* <ListingReservation
-            price={listing.price}
-            totalPrice={totalPrice}
-            onChangeDate={(value) => setDateRange(value)}
-            dateRange={dateRange}
-            onSubmit={onCreateReservation}
-            disabled={isLoading}
-            disabledDates={disabledDates}
-          /> */}
-        </div>
-        <ToDoList />
+        ></div>
+        {/* <ToDoList /> */}
       </div>
-      <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
-    </div>
+      <Toaster position="top-center" reverseOrder={false} />
+    </>
   );
 };
 
