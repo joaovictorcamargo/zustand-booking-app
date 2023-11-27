@@ -141,13 +141,11 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
         <div className="font-semibold">
             $ {listing?.totalPrice}
             </div>
-            <hr />
       <DatePicker
         value={dateRange}
         disabledDates={disabledDates}
         onChange={(value) => setDateRange(value)}
       />
-      <hr />
         {/* <div>Hosted by {listing?.name}</div> */}
         <div
           className="

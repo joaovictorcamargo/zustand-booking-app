@@ -26,7 +26,6 @@ const TripsClient: React.FC = () => {
           gap-8
         "
       >
-         <h1>Trips</h1>
         {tasks.map((reservation: any) => (
           <ListingCard
             key={reservation.id}

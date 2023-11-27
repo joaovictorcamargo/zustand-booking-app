@@ -5,10 +5,23 @@ import { toast, Toaster } from "react-hot-toast";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing } from "@/types/index";
 import { ToDoList } from "@/components/ToDoList/index";
-import {  useToDoStore } from "@/data/stores/useBookingStore";
+import { useToDoStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
+import {
+  Card,
+  Stack,
+  CardBody,
+  Image,
+  Heading,
+  Text,
+  Divider,
+  CardFooter,
+  ButtonGroup,
+  Button,
+  Box,
+} from "@chakra-ui/react";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -20,10 +33,8 @@ interface ListingClientProps {
   listing: Listing;
 }
 
-const ListingClient: React.FC<ListingClientProps> = ({
-  listing,
-}) => {
-  const router = useRouter()
+const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
+  const router = useRouter();
 
   const [tasks, createTask] = useToDoStore((state) => [
     state.tasks,
@@ -62,7 +73,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         listingId: listing.id!,
         id: "1",
         createdAt: new Date(),
-        imageSrc: listing.imageSrc!
+        imageSrc: listing.imageSrc!,
       });
     } catch {
       toast.error("Something went wrong.");
@@ -88,43 +99,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   return (
     <div className="text-start">
-      <div className="text-2xl font-bold">{listing?.title}</div>
-      <div className="font-light text-neutral-500 mt-2">
-        {listing?.description}
-      </div>
-      <div
-        className="
-          w-full
-          h-[60vh]
-          rounded-xl
-          relative
-        "
-      >
-        <div
-          className="
-          grid 
-          grid-cols-1 
-          sm:grid-cols-2 
-          md:grid-cols-3 
-          lg:grid-cols-4
-          xl:grid-cols-5
-          2xl:grid-cols-6
-          gap-8
-        "
-        >
-          <img
-            className="
-              object-cover 
-              group-hover:scale-110 
-              transition
-            "
-            src={listing?.imageSrc}
-            alt="Listing"
-          />
-        </div>
-        <div>Hosted by {listing?.name}</div>
-        <div
-          className="
+      <Card maxW="sm">
+        <CardBody>
+          <Image src={listing?.imageSrc} alt="Listing" borderRadius="lg" />
+          <Stack mt="6" spacing="3">
+            <Heading size="md">{listing?.title}</Heading>
+            <div>Hosted by {listing?.name}</div>
+            <div
+              className="
             flex 
             flex-row 
             items-center 
@@ -132,19 +114,22 @@ const ListingClient: React.FC<ListingClientProps> = ({
             font-light
             text-neutral-500
           "
-        >
-          <div>{listing?.guestCount} guests</div>
-          <div>{listing?.roomCount} rooms</div>
-          <div>{listing?.bathroomCount} bathrooms</div>
-        </div>
-        <div
-          className="
-                order-first 
-                mb-10 
-                md:order-last 
-                md:col-span-3
-              "
-        >
+            >
+              <div>{listing?.guestCount} guests</div>
+              <div>{listing?.roomCount} rooms</div>
+              <div>{listing?.bathroomCount} bathrooms</div>
+            </div>
+            <Box display="flex" alignItems="baseline" gap="2">
+              <Text color="blue.600" fontSize="2xl">
+                {listing?.price}
+                {"$"}
+              </Text>
+              {!listing && <Text className="font-light">night</Text>}
+            </Box>
+            <Text>{listing?.description}</Text>
+          </Stack>
+        </CardBody>
+        <CardFooter>
           <ListingReservation
             price={listing?.price}
             totalPrice={totalPrice}
@@ -154,13 +139,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
             disabled={isLoading}
             disabledDates={disabledDates}
           />
-        </div>
-        <ToDoList />
-      </div>
-      <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
+        </CardFooter>
+      </Card>
+      {/* <ToDoList /> */}
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

@@ -16,6 +16,7 @@ import {
   CardFooter,
   ButtonGroup,
   Button,
+  Box
 } from "@chakra-ui/react";
 
 interface ListingCardProps {
@@ -75,34 +76,33 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
               spaces, earthy toned spaces and for people who love a chic design
               with a sprinkle of vintage design.
             </Text>
+            <Box display='flex'  alignItems='baseline' gap="2">
             <Text color="blue.600" fontSize="2xl">
-              {price}
+              {price}{"$"}
             </Text>
             {!reservation && <Text className="font-light">night</Text>}
+            </Box>
             {reservation && (
               <button onClick={handleCancel}>Cancel reservation</button>
             )}
-          </Stack>
-        </CardBody>
-        <Divider />
-        <CardFooter>
-          <ButtonGroup spacing="2">
-            <Button variant="solid" colorScheme="blue">
-              Buy now
-            </Button>
-            <Button variant="ghost" colorScheme="blue">
-              Add to cart
-            </Button>
-          </ButtonGroup>
-        </CardFooter>
-      </Card>
-      {reservation && (
+                  {reservation && (
         <button
           onClick={() => router.push(`/update_listings/${reservation?.id}`)}
         >
           Update reservation
         </button>
       )}
+          </Stack>
+        </CardBody>
+        <Divider />
+        <CardFooter>
+          <ButtonGroup spacing="2">
+            <Button variant="ghost" colorScheme="blue">
+              Book
+            </Button>
+          </ButtonGroup>
+        </CardFooter>
+      </Card>
     </>
   );
 };

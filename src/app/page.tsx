@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import ListingCard from "@/listings/ListingCard";
 import { listings } from "@/utils";
+import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
 
 export default function Home() {
   const router = useRouter();
@@ -9,7 +10,6 @@ export default function Home() {
   return (
     <div
       className="
-          pt-24
           grid 
           grid-cols-1 
           sm:grid-cols-2 
@@ -23,7 +23,14 @@ export default function Home() {
       {listings.map((listing: any) => {
         return <ListingCard key={listing.id} data={listing} />;
       })}
-      <button onClick={() => router.push("/trips")}>My Trips</button>
+            <div className="absolute top-4 right-4">
+      <Menu>
+        <MenuButton as={Button}>Options</MenuButton>
+        <MenuList>
+          <MenuItem onClick={() => router.push("/trips")}>My Trips</MenuItem>
+        </MenuList>
+      </Menu>
+      </div>
     </div>
   );
 }
