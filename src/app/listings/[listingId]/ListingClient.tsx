@@ -78,7 +78,16 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [createBooking, listing.price, listing.id, listing.imageSrc, totalPrice, dateRange.startDate, dateRange.endDate, router]);
+  }, [
+    createBooking,
+    listing.price,
+    listing.id,
+    listing.imageSrc,
+    totalPrice,
+    dateRange.startDate,
+    dateRange.endDate,
+    router,
+  ]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {

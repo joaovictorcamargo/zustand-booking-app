@@ -25,9 +25,7 @@ export default function Home() {
         return <ListingCard key={listing.id} data={listing} />;
       })}
       <Menu>
-        <MenuButton as={Button}>
-          Options
-        </MenuButton>
+        <MenuButton as={Button}>Options</MenuButton>
         <MenuList>
           <MenuItem onClick={() => router.push("/trips")}>My Trips</MenuItem>
         </MenuList>

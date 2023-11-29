@@ -60,7 +60,6 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
     return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
-
   return (
     <>
       <Card maxW="sm">
@@ -86,7 +85,11 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
         <CardFooter>
           <ButtonGroup spacing="2">
             {!reservation && (
-              <Button onClick={() => router.push(`/listings/${data?.id}`)} variant="ghost" colorScheme="blue">
+              <Button
+                onClick={() => router.push(`/listings/${data?.id}`)}
+                variant="ghost"
+                colorScheme="blue"
+              >
                 Book
               </Button>
             )}

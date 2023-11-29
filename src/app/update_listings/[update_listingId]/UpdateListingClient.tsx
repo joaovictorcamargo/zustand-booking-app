@@ -17,7 +17,6 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
@@ -34,15 +33,9 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   const [totalPrice, setTotalPrice] = useState(listing?.totalPrice);
   const [isLoading, setIsLoading] = useState(false);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
-  const [
-    task,
-] = useBookStore(state => [
-  state.bookings,
-]);
+  const [task] = useBookStore((state) => [state.bookings]);
 
-const {
-  updateBooking,
-} = useBookStore();
+  const { updateBooking } = useBookStore();
 
   // const initialDate: Range = {
   //   startDate: listing?.startDate ? new Date(listing.startDate) : undefined,

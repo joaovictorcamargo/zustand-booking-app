@@ -1,17 +1,14 @@
-'use client';
+"use client";
 
-import {  useBookStore } from "@/data/stores/useBookingStore";
+import { useBookStore } from "@/data/stores/useBookingStore";
 import ListingCard from "@/listings/ListingCard";
 
-
 const TripsClient: React.FC = () => {
-  const [bookings] = useBookStore((state) => [
-    state.bookings,
-  ]);
+  const [bookings] = useBookStore((state) => [state.bookings]);
 
   return (
-      <div 
-        className="
+    <div
+      className="
           mt-10
           grid 
           grid-cols-1 
@@ -22,17 +19,17 @@ const TripsClient: React.FC = () => {
           2xl:grid-cols-6
           gap-8
         "
-      >
-        {bookings.map((reservation: any) => (
-          <ListingCard
-            key={reservation.id}
-            data={reservation.listing}
-            reservation={reservation}
-            actionId={reservation.id}
-          />
-        ))}
-      </div>
-   );
-}
- 
+    >
+      {bookings.map((reservation: any) => (
+        <ListingCard
+          key={reservation.id}
+          data={reservation.listing}
+          reservation={reservation}
+          actionId={reservation.id}
+        />
+      ))}
+    </div>
+  );
+};
+
 export default TripsClient;

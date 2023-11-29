@@ -2,26 +2,25 @@ import { Listing } from "@/types/index";
 import { listings } from "@/utils";
 
 interface IParams {
-    listingId?: string;
-  }
-  
-  export default function getListingById(
-    params: IParams
-  ) {
-    try {
-      const { listingId } = params;
+  listingId?: string;
+}
 
-      const listing: Listing | undefined = listings.find(item => `${item.id}` === listingId);
+export default function getListingById(params: IParams) {
+  try {
+    const { listingId } = params;
 
-  
-      if (!listing) {
-        return null;
-      }
-  
-      return {
-        ...listing,
-      };
-    } catch (error: any) {
-      throw new Error(error);
+    const listing: Listing | undefined = listings.find(
+      (item) => `${item.id}` === listingId
+    );
+
+    if (!listing) {
+      return null;
     }
-  }   
+
+    return {
+      ...listing,
+    };
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}

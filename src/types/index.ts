@@ -1,12 +1,12 @@
 export type Reservation = {
-    id: string;
-    listingId: string;
-    startDate: Date;
-    endDate: Date;
-    totalPrice: number;
-    createdAt: Date;
-    imageSrc: string
-  }
+  id: string;
+  listingId: string;
+  startDate: Date;
+  endDate: Date;
+  totalPrice: number;
+  createdAt: Date;
+  imageSrc: string;
+};
 
 export type Listing = {
   id: string;
@@ -18,9 +18,8 @@ export type Listing = {
   guestCount: number;
   price: number;
   name: string;
-  reservations?: Reservation[],
-}
-
+  reservations?: Reservation[];
+};
 
 export type SafeListing = Omit<Listing, "createdAt"> & {
   createdAt: string;
