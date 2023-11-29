@@ -30,7 +30,7 @@ interface ListingCardProps {
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
   const router = useRouter();
 
-  const [removeTask] = useBookStore((state) => [state.removeTask]);
+  const [removeBooking] = useBookStore((state) => [state.removeBooking]);
 
   const price = useMemo(() => {
     if (reservation) {
@@ -44,9 +44,9 @@ const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
 
-      removeTask(reservation?.id!);
+      removeBooking(reservation?.id!);
     },
-    [removeTask, reservation?.id]
+    [removeBooking, reservation?.id]
   );
 
   const reservationDate = useMemo(() => {

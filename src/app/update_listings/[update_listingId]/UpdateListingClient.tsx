@@ -37,14 +37,12 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   const [
     task,
 ] = useBookStore(state => [
-  state.tasks,
+  state.bookings,
 ]);
 
 const {
-  updateTask,
+  updateBooking,
 } = useBookStore();
-
-console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
 
   // const initialDate: Range = {
   //   startDate: listing?.startDate ? new Date(listing.startDate) : undefined,
@@ -82,7 +80,7 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
     setIsLoading(true);
 
     try {
-      updateTask({
+      updateBooking({
         price: listing.price!,
         totalPrice,
         startDate: dateRange.startDate!,
@@ -93,16 +91,14 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
         imageSrc: listing.imageSrc!,
       });
     } catch {
-      console.log("erro")
       toast.error("Something went wrong.");
     } finally {
-      console.log("success")
       toast.success("Listing updated!");
       setDateRange(initialDateRange);
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [updateTask, listing, dateRange, totalPrice, router]);
+  }, [updateBooking, listing, dateRange, totalPrice, router]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -187,7 +183,6 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
             text-neutral-500
           "
         ></div>
-        {/* <ToDoList /> */}
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </>

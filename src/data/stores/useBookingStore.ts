@@ -14,8 +14,8 @@ export interface Booking {
 }
 
 interface BookStore {
-    tasks: Booking[];
-    createTask: ({
+    bookings: Booking[];
+    createBooking: ({
         listingId,
         startDate,
         endDate,
@@ -23,7 +23,7 @@ interface BookStore {
         totalPrice,
         imageSrc,
     }: Booking) => void;
-    updateTask: ({
+    updateBooking: ({
         price,
         totalPrice,
         startDate,
@@ -31,13 +31,13 @@ interface BookStore {
         listingId,
         imageSrc,
     }: Booking) => void;
-    removeTask: (id: string) => void;
+    removeBooking: (id: string) => void;
     deleteEverything: () => void;
 }
 
 export const useBookStore = create<BookStore>((set, get) => ({
-    tasks: [],
-    createTask: ({
+    bookings: [],
+    createBooking: ({
         price,
         totalPrice,
         startDate,
@@ -45,8 +45,8 @@ export const useBookStore = create<BookStore>((set, get) => ({
         listingId,
         imageSrc,
     }: Booking) => {
-        const { tasks } = get();
-        const newTask = {
+        const { bookings } = get();
+        const newBooking = {
             id: generateId(),
             price,
             totalPrice,
@@ -58,10 +58,10 @@ export const useBookStore = create<BookStore>((set, get) => ({
         };
 
         set({
-            tasks: [newTask, ...tasks] as Booking[],
+            bookings: [newBooking, ...bookings] as Booking[],
         });
     },
-    updateTask: ({
+    updateBooking: ({
         price,
         totalPrice,
         startDate,
@@ -69,19 +69,19 @@ export const useBookStore = create<BookStore>((set, get) => ({
         listingId,
         imageSrc,
     }: Booking) => {
-        const { tasks } = get();
+        const { bookings } = get();
         set({
-            tasks: tasks.map((task) =>
-                task.id === listingId
-                    ? { ...task, price, totalPrice, startDate, endDate, imageSrc }
-                    : task
+            bookings: bookings.map((booking) =>
+                booking.id === listingId
+                    ? { ...booking, price, totalPrice, startDate, endDate, imageSrc }
+                    : booking
             ),
         });
     },
-    removeTask: (id: string) => {
-        const { tasks } = get();
+    removeBooking: (id: string) => {
+        const { bookings } = get();
         set({
-            tasks: tasks.filter((task) => task.id !== id),
+            bookings: bookings.filter((booking) => booking.id !== id),
         });
     },
     deleteEverything: () => {

@@ -5,8 +5,8 @@ import ListingCard from "@/listings/ListingCard";
 
 
 const TripsClient: React.FC = () => {
-  const [tasks] = useBookStore((state) => [
-    state.tasks,
+  const [bookings] = useBookStore((state) => [
+    state.bookings,
   ]);
 
   return (
@@ -23,7 +23,7 @@ const TripsClient: React.FC = () => {
           gap-8
         "
       >
-        {tasks.map((reservation: any) => (
+        {bookings.map((reservation: any) => (
           <ListingCard
             key={reservation.id}
             data={reservation.listing}

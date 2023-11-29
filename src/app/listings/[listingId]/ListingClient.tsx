@@ -32,15 +32,15 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
   const router = useRouter();
 
-  const [tasks, createTask] = useBookStore((state) => [
-    state.tasks,
-    state.createTask,
+  const [bookings, createBooking] = useBookStore((state) => [
+    state.bookings,
+    state.createBooking,
   ]);
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
 
-    tasks.forEach((reservation: any) => {
+    bookings.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -50,7 +50,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
     });
 
     return dates;
-  }, [tasks]);
+  }, [bookings]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing?.price);
@@ -60,7 +60,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
     setIsLoading(true);
 
     try {
-      createTask({
+      createBooking({
         price: listing.price,
         totalPrice,
         startDate: dateRange.startDate!,
@@ -78,7 +78,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [createTask, listing.price, listing.id, listing.imageSrc, totalPrice, dateRange.startDate, dateRange.endDate, router]);
+  }, [createBooking, listing.price, listing.id, listing.imageSrc, totalPrice, dateRange.startDate, dateRange.endDate, router]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -136,7 +136,6 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
           />
         </CardFooter>
       </Card>
-      {/* <ToDoList /> */}
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );

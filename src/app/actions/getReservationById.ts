@@ -8,7 +8,7 @@ interface IParams {
     params: IParams
   ) {
     const [bookings] = useBookStore((state) => [
-      state.tasks,
+      state.bookings,
     ]);
 
     try {

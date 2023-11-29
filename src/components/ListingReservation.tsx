@@ -49,7 +49,6 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
         <div>Total</div>
         <div>$ {totalPrice}</div>
       </div>
-
       <div className="p-4">
         <Button
           disabled={disabled}
