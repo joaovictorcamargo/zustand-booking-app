@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { eachDayOfInterval, differenceInDays, format } from "date-fns";
-import { Task, useToDoStore } from "@/data/stores/useBookingStore";
+import { Booking, useToDoStore } from "@/data/stores/useBookingStore";
 import { Range } from "react-date-range";
 import DatePicker from "@/components/Calendar";
 import { useRouter } from "next/navigation";
@@ -24,7 +24,7 @@ const initialDateRange = {
   key: "selection",
 };
 interface UpdateListingClientProps {
-  listing: Task;
+  listing: Booking;
 }
 
 const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
@@ -36,12 +36,15 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [
     task,
-    updateTask,
 ] = useToDoStore(state => [
   state.tasks,
-    state.updateTask,
 ]);
-console.log("🚀 ~ file: UpdateListingClient.tsx:42 ~ state.tasks:", task)
+
+const {
+  updateTask,
+} = useToDoStore();
+
+console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
 
   // const initialDate: Range = {
   //   startDate: listing?.startDate ? new Date(listing.startDate) : undefined,
@@ -49,12 +52,10 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:42 ~ state.tasks:", task)
   //   key: "selection",
   // };
 
-  const [tasks] = useToDoStore((state) => [state.tasks]);
-
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
 
-    tasks.forEach((reservation: any) => {
+    task.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -64,7 +65,7 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:42 ~ state.tasks:", task)
     });
 
     return dates;
-  }, [tasks]);
+  }, [task]);
 
   const reservationDate = useMemo(() => {
     if (!listing) {
@@ -92,14 +93,16 @@ console.log("🚀 ~ file: UpdateListingClient.tsx:42 ~ state.tasks:", task)
         imageSrc: listing.imageSrc!,
       });
     } catch {
+      console.log("erro")
       toast.error("Something went wrong.");
     } finally {
+      console.log("success")
       toast.success("Listing updated!");
       setDateRange(initialDateRange);
       router.push("/trips");
       setIsLoading(false);
     }
-  }, []);
+  }, [updateTask, listing, dateRange, totalPrice, router]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {

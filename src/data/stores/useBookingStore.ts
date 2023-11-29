@@ -1,36 +1,50 @@
-import create from 'zustand';
+import create from "zustand";
 
-import { generateId } from '../helpers';
+import { generateId } from "../helpers";
 
-export interface Task {
+export interface Booking {
     id: string;
     listingId: string;
     startDate: Date;
     endDate: Date;
     totalPrice: number;
     price: number;
-    createdAt: Date,
-    imageSrc: string
-  }
+    createdAt: Date;
+    imageSrc: string;
+}
 
 interface ToDoStore {
-    tasks: Task[];
-    createTask: ({ 
+    tasks: Booking[];
+    createTask: ({
         listingId,
         startDate,
         endDate,
         price,
         totalPrice,
-        imageSrc
-    }: Task) => void;
-    updateTask: ({price, totalPrice, startDate, endDate, listingId, imageSrc}: Task) => void;
+        imageSrc,
+    }: Booking) => void;
+    updateTask: ({
+        price,
+        totalPrice,
+        startDate,
+        endDate,
+        listingId,
+        imageSrc,
+    }: Booking) => void;
     removeTask: (id: string) => void;
     deleteEverything: () => void;
 }
 
 export const useToDoStore = create<ToDoStore>((set, get) => ({
     tasks: [],
-    createTask: ({price, totalPrice, startDate, endDate, listingId, imageSrc}: Task) => {
+    createTask: ({
+        price,
+        totalPrice,
+        startDate,
+        endDate,
+        listingId,
+        imageSrc,
+    }: Booking) => {
         const { tasks } = get();
         const newTask = {
             id: generateId(),
@@ -40,20 +54,28 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
             endDate,
             listingId,
             createdAt: Date.now(),
-            imageSrc
-        }
+            imageSrc,
+        };
 
         set({
-            tasks: [newTask, ...tasks] as Task[],
+            tasks: [newTask, ...tasks] as Booking[],
         });
     },
-    updateTask: ({price, totalPrice, startDate, endDate, listingId, imageSrc}: Task) => {
+    updateTask: ({
+        price,
+        totalPrice,
+        startDate,
+        endDate,
+        listingId,
+        imageSrc,
+    }: Booking) => {
         const { tasks } = get();
         set({
-            tasks: tasks.map((task) => ({
-                ...task,
-                title: task.id === listingId ? {price, totalPrice, startDate, endDate, listingId, imageSrc} : task,
-            }))
+            tasks: tasks.map((task) =>
+                task.id === listingId
+                    ? { ...task, price, totalPrice, startDate, endDate, imageSrc }
+                    : task
+            ),
         });
     },
     removeTask: (id: string) => {
@@ -63,6 +85,6 @@ export const useToDoStore = create<ToDoStore>((set, get) => ({
         });
     },
     deleteEverything: () => {
-        set({}, true)
+        set({}, true);
     },
 }));

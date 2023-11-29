@@ -4,7 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SafeListing } from "../types/index";
 import { format } from "date-fns";
-import { Task, useToDoStore } from "@/data/stores/useBookingStore";
+import { Booking, useToDoStore } from "@/data/stores/useBookingStore";
 import {
   Card,
   Stack,
@@ -20,7 +20,7 @@ import {
 
 interface ListingCardProps {
   data: SafeListing;
-  reservation?: Task;
+  reservation?: Booking;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
@@ -28,7 +28,6 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
-  console.log("🚀 ~ file: ListingCard.tsx:31 ~ data:", reservation)
   const router = useRouter();
 
   const [removeTask] = useToDoStore((state) => [state.removeTask]);

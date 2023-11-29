@@ -1,4 +1,4 @@
-import { Task, useToDoStore } from "@/data/stores/useBookingStore";
+import { Booking, useToDoStore } from "@/data/stores/useBookingStore";
 
 interface IParams {
   update_listingId?: string;
@@ -13,7 +13,7 @@ interface IParams {
 
     try {
       const { update_listingId } = params;
-      const listing: Task | undefined = tasks.find(item => `${item.id}` === update_listingId);
+      const listing: Booking | undefined = tasks.find(item => `${item.id}` === update_listingId);
 
   
       if (!listing) {
