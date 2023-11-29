@@ -4,7 +4,7 @@ import { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { SafeListing } from "../types/index";
 import { format } from "date-fns";
-import { Booking, useToDoStore } from "@/data/stores/useBookingStore";
+import { Booking, useBookStore } from "@/data/stores/useBookingStore";
 import {
   Card,
   Stack,
@@ -30,7 +30,7 @@ interface ListingCardProps {
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
   const router = useRouter();
 
-  const [removeTask] = useToDoStore((state) => [state.removeTask]);
+  const [removeTask] = useBookStore((state) => [state.removeTask]);
 
   const price = useMemo(() => {
     if (reservation) {

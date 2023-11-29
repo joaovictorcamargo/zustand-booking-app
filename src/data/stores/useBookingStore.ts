@@ -13,7 +13,7 @@ export interface Booking {
     imageSrc: string;
 }
 
-interface ToDoStore {
+interface BookStore {
     tasks: Booking[];
     createTask: ({
         listingId,
@@ -35,7 +35,7 @@ interface ToDoStore {
     deleteEverything: () => void;
 }
 
-export const useToDoStore = create<ToDoStore>((set, get) => ({
+export const useBookStore = create<BookStore>((set, get) => ({
     tasks: [],
     createTask: ({
         price,

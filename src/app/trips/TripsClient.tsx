@@ -1,11 +1,11 @@
 'use client';
 
-import {  useToDoStore } from "@/data/stores/useBookingStore";
+import {  useBookStore } from "@/data/stores/useBookingStore";
 import ListingCard from "@/listings/ListingCard";
 
 
 const TripsClient: React.FC = () => {
-  const [tasks] = useToDoStore((state) => [
+  const [tasks] = useBookStore((state) => [
     state.tasks,
   ]);
 

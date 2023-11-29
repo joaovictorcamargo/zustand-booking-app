@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { Listing } from "@/types/index";
-import { useToDoStore } from "@/data/stores/useBookingStore";
+import { useBookStore } from "@/data/stores/useBookingStore";
 import ListingReservation from "@/components/ListingReservation";
 import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
   const router = useRouter();
 
-  const [tasks, createTask] = useToDoStore((state) => [
+  const [tasks, createTask] = useBookStore((state) => [
     state.tasks,
     state.createTask,
   ]);
@@ -78,7 +78,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
       router.push("/trips");
       setIsLoading(false);
     }
-  }, [createTask, totalPrice, dateRange.startDate, dateRange.endDate, listing?.id, listing?.imageSrc, router]);
+  }, [createTask, listing.price, listing.id, listing.imageSrc, totalPrice, dateRange.startDate, dateRange.endDate, router]);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {

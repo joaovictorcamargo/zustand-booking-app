@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { eachDayOfInterval, differenceInDays, format } from "date-fns";
-import { Booking, useToDoStore } from "@/data/stores/useBookingStore";
+import { Booking, useBookStore } from "@/data/stores/useBookingStore";
 import { Range } from "react-date-range";
 import DatePicker from "@/components/Calendar";
 import { useRouter } from "next/navigation";
@@ -36,13 +36,13 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [
     task,
-] = useToDoStore(state => [
+] = useBookStore(state => [
   state.tasks,
 ]);
 
 const {
   updateTask,
-} = useToDoStore();
+} = useBookStore();
 
 console.log("🚀 ~ file: UpdateListingClient.tsx:39 ~ task:", task)
 
