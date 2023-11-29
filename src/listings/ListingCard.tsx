@@ -28,7 +28,7 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({ data, reservation }) => {
-  console.log("🚀 ~ file: ListingCard.tsx:31 ~ data:", reservation);
+  console.log("🚀 ~ file: ListingCard.tsx:31 ~ data:", reservation)
   const router = useRouter();
 
   const [removeTask] = useToDoStore((state) => [state.removeTask]);

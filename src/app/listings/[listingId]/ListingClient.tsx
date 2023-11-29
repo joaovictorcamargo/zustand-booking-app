@@ -61,6 +61,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing }) => {
 
     try {
       createTask({
+        price: listing.price,
         totalPrice,
         startDate: dateRange.startDate!,
         endDate: dateRange.endDate!,

@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
-import { Toaster } from "react-hot-toast";
-import { eachDayOfInterval, format } from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+import { eachDayOfInterval, differenceInDays, format } from "date-fns";
 import { Task, useToDoStore } from "@/data/stores/useBookingStore";
 import { Range } from "react-date-range";
-import { useRouter } from "next/navigation";
 import DatePicker from "@/components/Calendar";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardBody,
@@ -17,12 +17,12 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+
 const initialDateRange = {
   startDate: new Date(),
   endDate: new Date(),
   key: "selection",
 };
-
 interface UpdateListingClientProps {
   listing: Task;
 }
@@ -31,11 +31,25 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   listing,
 }) => {
   const router = useRouter();
-
-  const [tasks, updateTask] = useToDoStore((state) => [
-    state.tasks,
+  const [totalPrice, setTotalPrice] = useState(listing?.totalPrice);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+  const [
+    task,
+    updateTask,
+] = useToDoStore(state => [
+  state.tasks,
     state.updateTask,
-  ]);
+]);
+console.log("🚀 ~ file: UpdateListingClient.tsx:42 ~ state.tasks:", task)
+
+  // const initialDate: Range = {
+  //   startDate: listing?.startDate ? new Date(listing.startDate) : undefined,
+  //   endDate: listing?.endDate ? new Date(listing.endDate) : undefined,
+  //   key: "selection",
+  // };
+
+  const [tasks] = useToDoStore((state) => [state.tasks]);
 
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
@@ -52,45 +66,6 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
     return dates;
   }, [tasks]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  // const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
-
-  // const onCreateReservation = useCallback(() => {
-  //   setIsLoading(true);
-
-  //   try {
-  //     createTask({
-  //       totalPrice,
-  //       startDate: dateRange.startDate!,
-  //       endDate: dateRange.endDate!,
-  //       listingId: listing.id!,
-  //       id: "1",
-  //       createdAt: new Date(),
-  //       imageSrc: listing.imageSrc!
-  //     });
-  //   } catch {
-  //     toast.error("Something went wrong.");
-  //   } finally {
-  //     toast.success("Listing reserved!");
-  //     setDateRange(initialDateRange);
-  //     router.push("/trips");
-  //     setIsLoading(false);
-  //   }
-  // }, [totalPrice, dateRange, listing?.id, createTask, listing.imageSrc]);
-
-  // useEffect(() => {
-  //   if (dateRange.startDate && dateRange.endDate) {
-  //     const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
-
-  //     if (dayCount && listing.price) {
-  //       setTotalPrice(dayCount * listing.price);
-  //     } else {
-  //       setTotalPrice(listing.price);
-  //     }
-  //   }
-  // }, [dateRange, listing.price]);
-
   const reservationDate = useMemo(() => {
     if (!listing) {
       return null;
@@ -105,25 +80,38 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
   const onUpdateReservation = useCallback(() => {
     setIsLoading(true);
 
-    // try {
-    //   createTask({
-    //     totalPrice,
-    //     startDate: dateRange.startDate!,
-    //     endDate: dateRange.endDate!,
-    //     listingId: listing.id!,
-    //     id: "1",
-    //     createdAt: new Date(),
-    //     imageSrc: listing.imageSrc!,
-    //   });
-    // } catch {
-    //   toast.error("Something went wrong.");
-    // } finally {
-    //   toast.success("Listing reserved!");
-    //   setDateRange(initialDateRange);
-    //   router.push("/trips");
-    //   setIsLoading(false);
-    // }
+    try {
+      updateTask({
+        price: listing.price!,
+        totalPrice,
+        startDate: dateRange.startDate!,
+        endDate: dateRange.endDate!,
+        listingId: listing.id!,
+        id: "1",
+        createdAt: new Date(),
+        imageSrc: listing.imageSrc!,
+      });
+    } catch {
+      toast.error("Something went wrong.");
+    } finally {
+      toast.success("Listing updated!");
+      setDateRange(initialDateRange);
+      router.push("/trips");
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
+
+      if (dayCount && listing?.totalPrice) {
+        setTotalPrice(dayCount * listing?.price);
+      } else {
+        setTotalPrice(listing?.totalPrice);
+      }
+    }
+  }, [dateRange, listing?.price, listing?.totalPrice]);
 
   return (
     <>
@@ -150,8 +138,22 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
             <DatePicker
               value={dateRange}
               disabledDates={disabledDates}
-              onChange={(value) => setDateRange(value)}
+              onChange={(value) => setDateRange(value.selection)}
             />
+            <div
+              className="
+          p-4 
+          flex 
+          flex-row 
+          items-center 
+          justify-between
+          font-semibold
+          text-lg
+        "
+            >
+              <div>Total</div>
+              <div>$ {totalPrice}</div>
+            </div>
             <div className="p-4">
               <Button
                 onClick={onUpdateReservation}
