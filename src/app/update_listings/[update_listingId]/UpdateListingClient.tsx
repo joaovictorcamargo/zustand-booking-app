@@ -31,12 +31,13 @@ const UpdateListingClient: React.FC<UpdateListingClientProps> = ({
 }) => {
   const router = useRouter();
   const [totalPrice, setTotalPrice] = useState(listing?.totalPrice);
-  const [isLoading, setIsLoading] = useState(false);
+  const [ ,setIsLoading] = useState(false);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [task] = useBookStore((state) => [state.bookings]);
 
   const { updateBooking } = useBookStore();
 
+  // TODO 
   // const initialDate: Range = {
   //   startDate: listing?.startDate ? new Date(listing.startDate) : undefined,
   //   endDate: listing?.endDate ? new Date(listing.endDate) : undefined,
