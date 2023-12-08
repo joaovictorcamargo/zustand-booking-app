@@ -39,18 +39,6 @@ Chakra UI: Chakra UI is used for styling components and ensuring a consistent an
 
 React Date Range: The React Date Range library is integrated to facilitate date selection and manipulation in the booking process.
 
-Dear,
-
-I trust this message finds you well. I wanted to take a moment to provide some context regarding the React Booking Management App that I've submitted for the technical test. This application, while a genuine reflection of my development skills, was crafted within a relatively limited timeframe.
-
-Given the extensive demands on my schedule, balancing professional commitments and personal business responsibilities, the time allocated to this project was regrettably constrained. The brevity of the timeframe is in no way a reflection of a lack of dedication or effort on my part. Instead, it underscores the challenges of meeting deadlines amidst a multifaceted workload.
-
-The React Booking Management App is a testament to my proficiency in Next.js, Zustand, TypeScript, Chakra UI, and the integration of the React Date Range library. However, I believe that with more time, the application could have been further refined and enriched with additional features to showcase the full extent of my capabilities.
-
-I appreciate your understanding of the constraints under which this project was undertaken. Despite the time limitations, I am confident that the application exemplifies my commitment to producing high-quality, functional, and well-architected solutions.
-
-Best regards,
-
 João Victor Camargo Silva
 
 email: jc7155004@gmail.com
